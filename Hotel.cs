@@ -9,9 +9,14 @@ namespace HotelReservationSystem__WorkshopDay19
     public class Hotel
     {
         /// <summary>
-        /// The rate variable is declared which will assume different rate values for different hotels to calculate the rent 
+        /// The regularRate and weekendRate variable is declared which will assume different rate values 
+        /// for different hotels to calculate the rent 
         /// </summary>
-        public int rate;
+        public int regularRate;
+        public int weekendRate;
+        public int noOfRegularDays;
+        public int noOfWeekendDays;
+
         /// <summary>
         /// This method generates the rent for all the hotels and then returns the cheapest option
         /// </summary>
@@ -21,10 +26,10 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <returns></returns>
         public void RentGenerator(DateTime checkIn, DateTime checkOut, CustomerType type)
         {
-            int noOfDays = Convert.ToInt32((checkOut - checkIn).TotalDays);
-            int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfDays);
-            int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfDays);
-            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfDays);
+            noOfRegularDays = Convert.ToInt32((checkOut - checkIn).TotalDays);
+            int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfRegularDays);
+            int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfRegularDays);
+            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays);
             int minRent = Math.Min(lakewoodRent, Math.Min(bridgewoodRent, ridgewoodRent));
             if(minRent == lakewoodRent)
                 Console.WriteLine("The cheapest hotel is 'Hotel Lakewood' with rent=$"+lakewoodRent);
@@ -51,17 +56,20 @@ namespace HotelReservationSystem__WorkshopDay19
             {
                 if (name.Equals(HotelName.Lakewood))
                 {
-                    rate = 110;
+                    regularRate = 110;
+                    weekendRate = 90;
                     return (rate * noOfDays);
                 }
                 if (name.Equals(HotelName.Bridgewood))
                 {
-                    rate = 160;
+                    regularRate = 150;
+                    weekendRate = 50;
                     return (rate * noOfDays);
                 }
                 if (name.Equals(HotelName.Ridgewood))
                 {
-                    rate = 220;
+                    regularRate = 220;
+                    weekendRate = 150;
                     return (rate * noOfDays);
                 }
                 else
