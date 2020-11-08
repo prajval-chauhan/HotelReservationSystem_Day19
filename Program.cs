@@ -17,11 +17,11 @@ namespace HotelReservationSystem__WorkshopDay19
                     break;
                 case 2:
                     Console.Clear();
-                    Console.WriteLine("Please enter the of your check in in the format Day/Month/Year: ");
+                    Console.WriteLine("Please enter the date of your CHECK OUT (DD/MM/YYYY): ");
                     DateTime checkin = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Please enter the of your check out: ");
+                    Console.WriteLine("Please enter the date of your CHECK OUT (DD/MM/YYYY): ");
                     DateTime checkOut = DateTime.Parse(Console.ReadLine());
-                    Console.WriteLine("Minimum rent for the given dates is: ");
+                    call.RentGenerator(checkin,checkOut,CustomerType.REGULAR);
                     Console.ReadKey();
                     break;
             }

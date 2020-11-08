@@ -19,13 +19,19 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <param name="checkOut">The check out.</param>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public int RentGenerator(DateTime checkIn, DateTime checkOut, CustomerType type)
+        public void RentGenerator(DateTime checkIn, DateTime checkOut, CustomerType type)
         {
             int noOfDays = Convert.ToInt32((checkOut - checkIn).TotalDays);
             int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfDays);
             int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfDays);
             int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfDays);
-            return Math.Max(lakewoodRent, Math.Max(bridgewoodRent, ridgewoodRent));
+            int minRent = Math.Min(lakewoodRent, Math.Min(bridgewoodRent, ridgewoodRent));
+            if(minRent == lakewoodRent)
+                Console.WriteLine("The cheapest hotel is 'Hotel Lakewood' with rent=$"+lakewoodRent);
+            else if(minRent == bridgewoodRent)
+                Console.WriteLine("The cheapest hotel is 'Hotel Bridgewood' with rent=$" + bridgewoodRent);
+            else
+                Console.WriteLine("The cheapest hotel is 'Hotel Ridgewood' with rent=$" + ridgewoodRent);
         }
         /// <summary>
         /// calculates and returns the rents for different hotels 
