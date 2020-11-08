@@ -32,10 +32,10 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <param name="checkOut">The check out.</param>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public void RentGenerator(DateTime checkIn, DateTime checkOut, CustomerType type)
+        public void CheapestAndBestRated(DateTime checkIn, DateTime checkOut, CustomerType type)
         {
             noOfWeekendDays = WeekendCount(checkIn, checkOut);
-            noOfRegularDays = Convert.ToInt32((checkOut - checkIn).TotalDays) - noOfWeekendDays +1;
+            noOfRegularDays = WeekdaysCount(checkIn, checkOut);
             int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
             int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
             int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
@@ -56,6 +56,13 @@ namespace HotelReservationSystem__WorkshopDay19
                 Console.WriteLine("The cheapest hotel is 'Hotel Bridgewood' with rent = $" + bridgewoodRent);
             if (minRent == ridgewoodRent)
                 Console.WriteLine("The cheapest hotel is 'Hotel Ridgewood' with rent = $" + ridgewoodRent);
+        }
+        public void BestRatedRentFinder(DateTime checkIn, DateTime checkOut, CustomerType type)
+        {
+            noOfWeekendDays = WeekendCount(checkIn, checkOut);
+            noOfRegularDays = WeekdaysCount(checkIn, checkOut);
+            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
+            Console.WriteLine("The best rated is 'Hotel Ridgewood', rating: "+RATING_RIDGEWOOD+", rent= $" + ridgewoodRent);
         }
         /// <summary>
         /// calculates and returns the rents for different hotels 
@@ -126,6 +133,18 @@ namespace HotelReservationSystem__WorkshopDay19
                     count++;
             }
             return count;
+        }
+        /// <summary>
+        /// Method to calculate the number of days excluding saturday and sunday in the given date range
+        /// </summary>
+        /// <param name="checkIn">The check in.</param>
+        /// <param name="checkOut">The check out.</param>
+        /// <returns></returns>
+        public static int WeekdaysCount(DateTime checkIn, DateTime checkOut)
+        {
+            int totalNumberofDays = Convert.ToInt32((checkOut - checkIn).TotalDays) + 1;
+            int weekdays = totalNumberofDays - WeekendCount(checkIn, checkOut);
+            return weekdays;
         }
     }
 }
