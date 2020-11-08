@@ -57,6 +57,12 @@ namespace HotelReservationSystem__WorkshopDay19
             if (minRent == ridgewoodRent)
                 Console.WriteLine("The cheapest hotel is 'Hotel Ridgewood' with rent = $" + ridgewoodRent);
         }
+        /// <summary>
+        /// UC7: This method returns the rent for the best rated hotel
+        /// </summary>
+        /// <param name="checkIn">The check in.</param>
+        /// <param name="checkOut">The check out.</param>
+        /// <param name="type">The type.</param>
         public void BestRatedRentFinder(DateTime checkIn, DateTime checkOut, CustomerType type)
         {
             noOfWeekendDays = WeekendCount(checkIn, checkOut);
@@ -96,6 +102,29 @@ namespace HotelReservationSystem__WorkshopDay19
                 {
                     regularRate = 220;
                     weekendRate = 150;
+                    return (regularDays * regularRate + weekendDays * weekendRate);
+                }
+                else
+                    throw new HotelReservationException(HotelReservationException.ExceptionType.NO_SUCH_HOTEL, "Hotel doesn't exist");
+            }
+            if (type.Equals(CustomerType.REWARD))
+            {
+                if (name.Equals(HotelName.Lakewood))
+                {
+                    regularRate = 80;
+                    weekendRate = 80;
+                    return (regularDays * regularRate + weekendDays * weekendRate);
+                }
+                if (name.Equals(HotelName.Bridgewood))
+                {
+                    regularRate = 110;
+                    weekendRate = 50;
+                    return (regularDays * regularRate + weekendDays * weekendRate);
+                }
+                if (name.Equals(HotelName.Ridgewood))
+                {
+                    regularRate = 100;
+                    weekendRate = 40;
                     return (regularDays * regularRate + weekendDays * weekendRate);
                 }
                 else
