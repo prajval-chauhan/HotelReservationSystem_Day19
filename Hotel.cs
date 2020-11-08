@@ -4,6 +4,7 @@ using System.Data;
 using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace HotelReservationSystem__WorkshopDay19
 {
@@ -190,6 +191,24 @@ namespace HotelReservationSystem__WorkshopDay19
                 return CustomerType.REWARD;
             else
                 throw new HotelReservationException(HotelReservationException.ExceptionType.NO_SUCH_CUSTOMER_TYPE, "Invalid Customer type");
+        }
+        /// <summary>
+        /// UC11 and UC12 : To validate that the user has entered correct date or not
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static void DateValidator(DateTime date)
+        {
+            string regex = @"([0-2][0-9]|(3)[0-1])[\/](((0)[0-9])|((1)[0-2]))[\/]\d{4}";
+            string datestr = date.ToString("dd/MM/YYYY");
+            try
+            {
+                Regex.IsMatch(regex, datestr);
+            }
+            catch
+            {
+                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "Invalid date entered");
+            }
         }
     }
 }
