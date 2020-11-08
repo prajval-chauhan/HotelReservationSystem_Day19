@@ -36,6 +36,7 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <returns></returns>
         public void CheapestAndBestRated(DateTime checkIn, DateTime checkOut, string customerType)
         {
+            DateValidator(checkIn, checkOut);
             noOfWeekendDays = WeekendCount(checkIn, checkOut);
             noOfRegularDays = WeekdaysCount(checkIn, checkOut);
             type = DetermineCustomerType(customerType);
@@ -68,6 +69,7 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <param name="type">The type.</param>
         public void BestRatedRentFinder(DateTime checkIn, DateTime checkOut, string customerType)
         {
+            DateValidator(checkIn, checkOut);
             type = DetermineCustomerType(customerType);
             noOfWeekendDays = WeekendCount(checkIn, checkOut);
             noOfRegularDays = WeekdaysCount(checkIn, checkOut);
@@ -197,13 +199,15 @@ namespace HotelReservationSystem__WorkshopDay19
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public static void DateValidator(DateTime date)
+        public static void DateValidator(DateTime dateIn, DateTime dateOut)
         {
             string regex = @"([0-2][0-9]|(3)[0-1])[\/](((0)[0-9])|((1)[0-2]))[\/]\d{4}";
-            string datestr = date.ToString("dd/MM/YYYY");
+            string datestr1 = dateIn.ToString("dd/MM/YYYY");
+            string datestr2 = dateOut.ToString("dd/MM/YYYY");
             try
             {
-                Regex.IsMatch(regex, datestr);
+                Regex.IsMatch(regex, datestr1);
+                Regex.IsMatch(regex, datestr2);
             }
             catch
             {
