@@ -24,6 +24,7 @@ namespace HotelReservationSystem__WorkshopDay19
         public int weekendRate;
         public int noOfRegularDays;
         public int noOfWeekendDays;
+        CustomerType type;
 
         /// <summary>
         /// This method generates the rent for all the hotels and then returns the cheapest option
@@ -32,13 +33,14 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <param name="checkOut">The check out.</param>
         /// <param name="type">The type.</param>
         /// <returns></returns>
-        public void CheapestAndBestRated(DateTime checkIn, DateTime checkOut, CustomerType type)
+        public void CheapestAndBestRated(DateTime checkIn, DateTime checkOut, string customerType)
         {
             noOfWeekendDays = WeekendCount(checkIn, checkOut);
             noOfRegularDays = WeekdaysCount(checkIn, checkOut);
-            int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
-            int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
-            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
+            type = DetermineCustomerType(customerType);
+            int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, type, noOfRegularDays, noOfWeekendDays);
+            int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, type, noOfRegularDays, noOfWeekendDays);
+            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, type, noOfRegularDays, noOfWeekendDays);
             if ((lakewoodRent == bridgewoodRent && lakewoodRent <= ridgewoodRent) || (lakewoodRent == ridgewoodRent && lakewoodRent <= bridgewoodRent) || (bridgewoodRent == ridgewoodRent && bridgewoodRent <= lakewoodRent))
             {
                 if (bridgewoodRent == ridgewoodRent)
@@ -63,11 +65,12 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <param name="checkIn">The check in.</param>
         /// <param name="checkOut">The check out.</param>
         /// <param name="type">The type.</param>
-        public void BestRatedRentFinder(DateTime checkIn, DateTime checkOut, CustomerType type)
+        public void BestRatedRentFinder(DateTime checkIn, DateTime checkOut, string customerType)
         {
+            type = DetermineCustomerType(customerType);
             noOfWeekendDays = WeekendCount(checkIn, checkOut);
             noOfRegularDays = WeekdaysCount(checkIn, checkOut);
-            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
+            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, type, noOfRegularDays, noOfWeekendDays);
             Console.WriteLine("The best rated is 'Hotel Ridgewood', rating: "+RATING_RIDGEWOOD+", rent= $" + ridgewoodRent);
         }
         /// <summary>
@@ -174,6 +177,19 @@ namespace HotelReservationSystem__WorkshopDay19
             int totalNumberofDays = Convert.ToInt32((checkOut - checkIn).TotalDays) + 1;
             int weekdays = totalNumberofDays - WeekendCount(checkIn, checkOut);
             return weekdays;
+        }
+        /// <summary>
+        /// Determines the type of the customer whether the customer is a regular one or the rewards one.
+        /// </summary>
+        /// <param name="customerType">Type of the customer.</param>
+        public CustomerType DetermineCustomerType(string customerType)
+        {
+            if (String.Equals("regular", customerType))
+                return CustomerType.REGULAR;
+            if (String.Equals("reward", customerType))
+                return CustomerType.REWARD;
+            else
+                throw new HotelReservationException(HotelReservationException.ExceptionType.NO_SUCH_CUSTOMER_TYPE, "Invalid Customer type");
         }
     }
 }
