@@ -39,13 +39,23 @@ namespace HotelReservationSystem__WorkshopDay19
             int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
             int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
             int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
+            if ((lakewoodRent == bridgewoodRent && lakewoodRent <= ridgewoodRent) || (lakewoodRent == ridgewoodRent && lakewoodRent <= bridgewoodRent) || (bridgewoodRent == ridgewoodRent && bridgewoodRent <= lakewoodRent))
+            {
+                if (bridgewoodRent == ridgewoodRent)
+                    Console.WriteLine("The cheapest hotel and best rated is 'Hotel Ridgewood' with rent= $" + ridgewoodRent);
+                else if (lakewoodRent == ridgewoodRent)
+                    Console.WriteLine("The cheapest hotel and best rated is 'Hotel Ridgewood' with rent= $" + ridgewoodRent);
+                else if (lakewoodRent == bridgewoodRent)
+                    Console.WriteLine("The cheapest and best rated hotel is 'Hotel Bridgewood' with rent= $" + bridgewoodRent);
+                return;
+            }
             int minRent = Math.Min(lakewoodRent, Math.Min(bridgewoodRent, ridgewoodRent));
             if(minRent == lakewoodRent)
-                Console.WriteLine("The cheapest hotel is 'Hotel Lakewood' with rent=$"+lakewoodRent);
+                Console.WriteLine("The cheapest hotel is 'Hotel Lakewood' with rent = $"+lakewoodRent);
             if(minRent == bridgewoodRent)
-                Console.WriteLine("The cheapest hotel is 'Hotel Bridgewood' with rent=$" + bridgewoodRent);
+                Console.WriteLine("The cheapest hotel is 'Hotel Bridgewood' with rent = $" + bridgewoodRent);
             if (minRent == ridgewoodRent)
-                Console.WriteLine("The cheapest hotel is 'Hotel Ridgewood' with rent=$" + ridgewoodRent);
+                Console.WriteLine("The cheapest hotel is 'Hotel Ridgewood' with rent = $" + ridgewoodRent);
         }
         /// <summary>
         /// calculates and returns the rents for different hotels 
