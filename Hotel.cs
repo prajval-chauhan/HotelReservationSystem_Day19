@@ -26,16 +26,17 @@ namespace HotelReservationSystem__WorkshopDay19
         /// <returns></returns>
         public void RentGenerator(DateTime checkIn, DateTime checkOut, CustomerType type)
         {
-            noOfRegularDays = Convert.ToInt32((checkOut - checkIn).TotalDays);
-            int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfRegularDays);
-            int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfRegularDays);
-            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays);
+            noOfWeekendDays = WeekendCount(checkIn, checkOut);
+            noOfRegularDays = Convert.ToInt32((checkOut - checkIn).TotalDays) - noOfWeekendDays +1;
+            int lakewoodRent = HotelRentGenerator(HotelName.Lakewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
+            int bridgewoodRent = HotelRentGenerator(HotelName.Bridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
+            int ridgewoodRent = HotelRentGenerator(HotelName.Ridgewood, CustomerType.REGULAR, noOfRegularDays, noOfWeekendDays);
             int minRent = Math.Min(lakewoodRent, Math.Min(bridgewoodRent, ridgewoodRent));
             if(minRent == lakewoodRent)
                 Console.WriteLine("The cheapest hotel is 'Hotel Lakewood' with rent=$"+lakewoodRent);
-            else if(minRent == bridgewoodRent)
+            if(minRent == bridgewoodRent)
                 Console.WriteLine("The cheapest hotel is 'Hotel Bridgewood' with rent=$" + bridgewoodRent);
-            else
+            if (minRent == ridgewoodRent)
                 Console.WriteLine("The cheapest hotel is 'Hotel Ridgewood' with rent=$" + ridgewoodRent);
         }
         /// <summary>
@@ -50,7 +51,7 @@ namespace HotelReservationSystem__WorkshopDay19
         /// or
         /// throws exception Invalid Customer Type when wrong customer type is entered.
         /// </exception>
-        public int HotelRentGenerator(HotelName name, CustomerType type, int noOfDays)
+        public int HotelRentGenerator(HotelName name, CustomerType type, int regularDays, int weekendDays)
         {
             if (type.Equals(CustomerType.REGULAR))
             {
@@ -58,19 +59,19 @@ namespace HotelReservationSystem__WorkshopDay19
                 {
                     regularRate = 110;
                     weekendRate = 90;
-                    return (rate * noOfDays);
+                    return (regularDays * regularRate + weekendDays * weekendRate);
                 }
                 if (name.Equals(HotelName.Bridgewood))
                 {
                     regularRate = 150;
                     weekendRate = 50;
-                    return (rate * noOfDays);
+                    return (regularDays * regularRate + weekendDays * weekendRate);
                 }
                 if (name.Equals(HotelName.Ridgewood))
                 {
                     regularRate = 220;
                     weekendRate = 150;
-                    return (rate * noOfDays);
+                    return (regularDays * regularRate + weekendDays * weekendRate);
                 }
                 else
                     throw new HotelReservationException(HotelReservationException.ExceptionType.NO_SUCH_HOTEL, "Hotel doesn't exist");
@@ -83,9 +84,30 @@ namespace HotelReservationSystem__WorkshopDay19
         /// </summary>
         public void HotelDetails()
         {
-            Console.WriteLine("***********************\nHotel Name: Lakewood\nRating: 3 star\nPrice: $110 per day\n***********************");
-            Console.WriteLine("***********************\nHotel Name: Bridgewood\nRating: 4 star\nPrice: $160 per day\n***********************");
-            Console.WriteLine("***********************\nHotel Name: Ridgewood\nRating: 5 star\nPrice: $220 per day\n***********************");
+            Console.Clear();
+            Console.WriteLine("***********************\nHotel Name: Lakewood\nRating: 3 star\n Weekday Price: $110 per day , Weekend Price: $90 per day\n***********************");
+            Console.WriteLine("***********************\nHotel Name: Bridgewood\nRating: 4 star\nPrice: $150 per day, Weekend Price: $50 per day\n***********************");
+            Console.WriteLine("***********************\nHotel Name: Ridgewood\nRating: 5 star\nPrice: $220 per day, Weekend Price: $150 per day\n***********************");
+        }
+        /// <summary>
+        ///Method to find the total number of saturdays and sundays for the given date range 
+        /// </summary>
+        /// <param name="checkIn">The check in.</param>
+        /// <param name="checkOut">The check out.</param>
+        /// <returns></returns>
+        public static int WeekendCount(DateTime checkIn, DateTime checkOut)
+        {
+            int count = 0;
+            int days = Convert.ToInt32((checkOut - checkIn).TotalDays);
+            for (var i = 0; i <= days; i++)
+            {
+                var testDate = checkIn.AddDays(i);
+                if (testDate.DayOfWeek == DayOfWeek.Saturday)
+                    count++;
+                if (testDate.DayOfWeek == DayOfWeek.Sunday)
+                    count++;
+            }
+            return count;
         }
     }
 }
