@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Reflection.Metadata;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 
@@ -8,6 +9,13 @@ namespace HotelReservationSystem__WorkshopDay19
 {
     public class Hotel
     {
+        /// <summary>
+        /// The rating of different hotels. Here rating = n means that the hotel is n starred.
+        /// </summary>
+        public static int RATING_LAKEWOOD = 3;
+        public static int RATING_BRIDGEWOOD = 4;
+        public static int RATING_RIDGEWOOD = 5;
+
         /// <summary>
         /// The regularRate and weekendRate variable is declared which will assume different rate values 
         /// for different hotels to calculate the rent 
